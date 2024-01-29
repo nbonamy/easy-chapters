@@ -13,9 +13,9 @@ import SwiftUI
 import VLCKit
 
 protocol VLCPlayerDelegate {
-  func playerReset(_ player: VLCPlayer)
-  func playerReady(_ player: VLCPlayer)
-  func mediaParsed(_ player: VLCPlayer, chapters: [Chapter])
+  func playerReset(_ player: VLCPlayer) -> Void
+  func playerReady(_ player: VLCPlayer) -> Void
+  func mediaParsed(_ player: VLCPlayer, chapters: [Chapter]) -> Void
 }
 
 /// VLC Player for SwiftUI.
@@ -59,21 +59,21 @@ struct VLCPlayer: NSViewRepresentable {
     
   }
   
-  func updateNSView(_ vlcView: VLCVideoView, context: NSViewRepresentableContext<VLCPlayer>) {
+  func updateNSView(_ vlcView: VLCVideoView, context: NSViewRepresentableContext<VLCPlayer>) -> Void {
     player.delegate = context.coordinator
     player.media?.delegate = context.coordinator
     player.libraryInstance.loggers?.append(context.coordinator)
   }
   
-  func ready() {
+  func ready() -> Void {
     self.delegate?.playerReady(self)
   }
   
-  func setPauseAfterTimeChanged() {
+  func setPauseAfterTimeChanged() -> Void {
     _pauseAfterTimeChanged = true
   }
   
-  func unsetPauseAfterTimeChanged() {
+  func unsetPauseAfterTimeChanged() -> Void {
     _pauseAfterTimeChanged = false
   }
   
@@ -83,7 +83,7 @@ struct VLCPlayer: NSViewRepresentable {
     }
   }
   
-  func parseChapters() {
+  func parseChapters() -> Void {
     var chapters = [Chapter]()
     let vlcChapters = player.chapterDescriptions(ofTitle: 0)
     for vlcChapter in vlcChapters {
@@ -109,26 +109,26 @@ struct VLCPlayer: NSViewRepresentable {
       self.parent = parent
     }
     
-    func handleMessage(_ message: String, logLevel level: VLCLogLevel, context: VLCLogContext?) {
+    func handleMessage(_ message: String, logLevel level: VLCLogLevel, context: VLCLogContext?) -> Void {
       // Only print out errors.
       if (level == VLCLogLevel.error) {
         print("Player Error: \(message)")
       }
     }
     
-    func mediaDidFinishParsing(_ aMedia: VLCMedia) {
+    func mediaDidFinishParsing(_ aMedia: VLCMedia) -> Void {
       print("mediaDidFinishParsing")
       //print(aMedia.tracksInformation)
       parent.parseChapters()
     }
     
-    func mediaMetaDataDidChange(_ aMedia: VLCMedia) {
+    func mediaMetaDataDidChange(_ aMedia: VLCMedia) -> Void {
       //print("mediaMetaDataDidChange")
       //print(aMedia.tracksInformation)
       parent.ready()
     }
     
-    func mediaPlayerTimeChanged(_ aNotification: Notification) {
+    func mediaPlayerTimeChanged(_ aNotification: Notification) -> Void {
       if (parent.pauseAfterTimeChanged) {
         parent.player.pause()
         parent.unsetPauseAfterTimeChanged()

@@ -13,18 +13,18 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
   var duration = 0
   var ready = false
   
-  func playerReset(_ player: VLCPlayer) {
+  func playerReset(_ player: VLCPlayer) -> Void {
     ready = false
     chapters.removeAll()
     self.objectWillChange.send()
   }
   
-  func playerReady(_ player: VLCPlayer) {
+  func playerReady(_ player: VLCPlayer) -> Void {
     ready = true
     self.objectWillChange.send()
   }
   
-  func mediaParsed(_ player: VLCPlayer, chapters: [Chapter]) {
+  func mediaParsed(_ player: VLCPlayer, chapters: [Chapter]) -> Void {
     self.chapters = chapters
     self.duration = player.duration()
     self.objectWillChange.send()
@@ -43,7 +43,8 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
     return nil
   }
   
-  @discardableResult func addChapter(_ offset: Int) -> Chapter {
+  @discardableResult
+  func addChapter(_ offset: Int) -> Chapter {
     for i in 0..<chapters.count {
       if (chapters[i].offset > offset) {
         let chapter = Chapter(name: String(format: "Chapter %d", i+1), offset: offset, duration: 0);
@@ -60,7 +61,7 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
     return chapter;
   }
   
-  func updateChapterName(_ id: UUID, name: String) {
+  func updateChapterName(_ id: UUID, name: String) -> Void {
     let chapter = getChapter(id)
     if (chapter != nil) {
       chapter!.name = name
@@ -68,7 +69,7 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
     }
   }
   
-  func updateChapterOffset(_ id: UUID, offset: Int) {
+  func updateChapterOffset(_ id: UUID, offset: Int) -> Void {
     let chapter = getChapter(id)
     if (chapter != nil) {
       chapter!.offset = offset
@@ -77,7 +78,7 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
     }
   }
   
-  func deleteChapter(_ id: UUID) {
+  func deleteChapter(_ id: UUID) -> Void {
     chapters.removeAll{ $0.id == id }
     self.objectWillChange.send()
   }
