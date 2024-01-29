@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Chapter : Hashable, Equatable {
+@Observable class Chapter : Hashable, Equatable {
   var id: UUID
   var name: String
   var offset: Int
