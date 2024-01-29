@@ -27,6 +27,10 @@ import Foundation
     self.duration = player.duration()
   }
   
+  func currentChapter(_ time: Int) -> Chapter? {
+    return chapters.last { $0.offset <= time }
+  }
+  
   func getChapter(_ id : UUID) -> Chapter? {
     return chapters.first { $0.id == id }
   }

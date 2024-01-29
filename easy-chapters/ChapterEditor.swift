@@ -9,10 +9,13 @@ import SwiftUI
 
 struct ChapterEditor: View {
   
-  @Binding var videoInfo: VideoInfo
-  @Binding var isEditing: Bool
-  @Binding var selection: Set<UUID>
-  @Binding var editedValue: String
+  enum PostUpdateAction {
+    case Close, Next
+  }
+  
+  @State var editedValue: String
+  var closeEditor: () -> Void
+  var updateChapter: (String, PostUpdateAction) -> Chapter?
   
   var body: some View {
     VStack {
@@ -34,29 +37,20 @@ struct ChapterEditor: View {
       
       // ok
       AlertButton("OK", prominent: true) {
-        videoInfo.updateChapterName(selection.first!, name: editedValue)
-        isEditing.toggle()
+        _ = updateChapter(editedValue, PostUpdateAction.Close)
       }
       Spacer(minLength: 6)
       
       // next
       AlertButton("Next") {
-        let id = selection.first!
-        videoInfo.updateChapterName(id, name: editedValue)
-        let next = videoInfo.nextChapter(id)
-        if next != nil {
-          selection.removeAll()
-          selection.insert(next!.id)
-          editedValue = next!.name
-        } else {
-          isEditing.toggle()
-        }
+        let next = updateChapter(editedValue, PostUpdateAction.Next)
+        editedValue = next?.name ?? ""
       }
       Spacer(minLength: 16)
       
       // cancel
       AlertButton("Cancel") {
-        isEditing.toggle()
+        closeEditor()
       }
       
     }.padding(16).background(Color(hex: 0xDAD9D8))

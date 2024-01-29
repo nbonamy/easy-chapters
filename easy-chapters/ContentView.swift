@@ -15,7 +15,6 @@ struct ContentView: View {
   @State private var progress: Double = 0
   @State private var isScrobbing = false
   @State private var isEditing = false
-  @State private var editedValue = ""
   @State private var videoPath = ""
   @State private var showAlert = false
   @State private var alertText = ""
@@ -70,10 +69,13 @@ struct ContentView: View {
         Spacer(minLength: 32)
         VStack {
           List(videoInfo.chapters, id: \.id, selection: $selection) { chapter in
-            Text("[\(chapter.offsetFormatted)] \(chapter.name)").monospacedDigit()
-              .onDoubleClick {
-                player.seek(chapter.offset, resume: true)
-              }
+            HStack {
+              Text(currentIndicator(chapter)).frame(width: 14).foregroundColor(.secondary)
+              Text("[\(chapter.offsetFormatted)] \(chapter.name)").monospacedDigit()
+                .onDoubleClick {
+                  player.seek(chapter.offset, resume: true)
+                }
+            }
           }
           Spacer().frame(height: 16)
           HStack {
@@ -92,11 +94,7 @@ struct ContentView: View {
               selection.removeAll()
             }.disabled(!videoInfo.ready || selection.isEmpty)
             Button("Edit") {
-              let chapter = videoInfo.getChapter(selection.first!)
-              if (chapter != nil) {
-                editedValue = chapter!.name
-                isEditing = true
-              }
+              isEditing = true
             }.disabled(!videoInfo.ready || selection.count != 1)
             Button("Update Time") {
               videoInfo.updateChapterOffset(selection.first!, offset: player.time())
@@ -114,10 +112,29 @@ struct ContentView: View {
       }
       .sheet(isPresented: $isEditing) {
         ChapterEditor(
-          videoInfo: $videoInfo,
-          isEditing: $isEditing,
-          selection: $selection,
-          editedValue: $editedValue
+          editedValue: videoInfo.getChapter(selection.first!)!.name,
+          closeEditor: { isEditing.toggle() },
+          updateChapter: { name, action in
+            
+            // update
+            videoInfo.updateChapterName(selection.first!, name: name)
+            
+            // get next
+            var next : Chapter?
+            if (action == ChapterEditor.PostUpdateAction.Next) {
+              next = videoInfo.nextChapter(selection.first!)
+            }
+            if (next == nil) {
+              isEditing.toggle()
+              return nil
+            }
+            
+            // switch to it
+            selection = [ next!.id ]
+            player.seek(next!.offset, resume: true)
+            return next
+            
+          }
         )
       }
       .alert(isPresented: self.$showAlert) {
@@ -129,6 +146,11 @@ struct ContentView: View {
       }
       .padding()
     }
+  }
+  
+  private func currentIndicator(_ chapter: Chapter) -> String {
+    let current = videoInfo.currentChapter(player.time())
+    return current == chapter ? "★" : ""
   }
   
   private func openFilePicker() {
