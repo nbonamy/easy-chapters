@@ -192,7 +192,7 @@ extension VLCPlayer {
   }
   
   func timep(_ progress: Double) -> Int {
-    let offset = progress * Double(player.media!.length.intValue)
+    let offset = progress * Double(player.media?.length.intValue ?? 0)
     return Int(offset)
   }
 
@@ -202,7 +202,7 @@ extension VLCPlayer {
   }
   
   func duration() -> Int {
-    return Int(player.media!.length.intValue)
+    return Int(player.media?.length.intValue ?? 0)
   }
   
   func progress() -> Double {
