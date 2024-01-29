@@ -10,7 +10,7 @@
 //
 
 import SwiftUI
-import VLCKitSPM
+import VLCKit
 
 protocol VLCPlayerDelegate {
   func playerReset(_ player: VLCPlayer)

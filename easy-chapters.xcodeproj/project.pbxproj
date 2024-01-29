@@ -37,7 +37,7 @@
 
 /* Begin PBXFileReference section */
 		8D34510D2B680AAD0041EB03 /* AlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertButton.swift; sourceTree = "<group>"; };
-		8DF2CB342B670E880037CB9B /* easy-chapters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "easy-chapters.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DF2CB342B670E880037CB9B /* EasyChapters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyChapters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF2CB372B670E880037CB9B /* easy_chaptersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = easy_chaptersApp.swift; sourceTree = "<group>"; };
 		8DF2CB392B670E880037CB9B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8DF2CB3B2B670E890037CB9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 		8DF2CB352B670E880037CB9B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DF2CB342B670E880037CB9B /* easy-chapters.app */,
+				8DF2CB342B670E880037CB9B /* EasyChapters.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,7 +177,7 @@
 				8DF2CB472B670EF60037CB9B /* VLCKitSPM */,
 			);
 			productName = "easy-chapters";
-			productReference = 8DF2CB342B670E880037CB9B /* easy-chapters.app */;
+			productReference = 8DF2CB342B670E880037CB9B /* EasyChapters.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -387,7 +387,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nabocorp.easy-chapters";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = EasyChapters;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -415,7 +415,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nabocorp.easy-chapters";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = EasyChapters;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
