@@ -33,6 +33,12 @@ struct ContentView: View {
     }
   }
   
+  var normalRate: Bool {
+    get {
+      return player.getRate() > 0.9
+    }
+  }
+  
   var body: some View {
     GeometryReader { geometry in
       HStack {
@@ -80,6 +86,13 @@ struct ContentView: View {
             if (player != nil) {
               Text(player.timeFormatted(isScrobbing ? progress : nil)).monospacedDigit()
             }
+            
+            if (player != nil) {
+              ButtonSymbol(normalRate ? "hare.fill" : "tortoise.fill", disabled: !videoReady) {
+                player.setRate(normalRate ? 0.5 : 1.0)
+              }
+            }
+
           }
         }
         Spacer(minLength: 16)

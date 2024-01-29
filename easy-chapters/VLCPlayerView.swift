@@ -213,4 +213,12 @@ extension VLCPlayer {
     parseChapters()
   }
   
+  func setRate(_ rate : Float) -> Void {
+    player.fastForward(atRate: rate)
+  }
+  
+  func getRate() -> Float {
+    return player.rate
+  }
+  
 }
