@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum PlaybackRate {
+  case Slow, Normal, Fast
+}
+
 struct ContentView: View {
   
   @State private var player: VLCPlayer!
@@ -33,9 +37,27 @@ struct ContentView: View {
     }
   }
   
-  var normalRate: Bool {
+  var rate: PlaybackRate {
     get {
-      return player.getRate() > 0.9
+      let rate = player.getRate()
+      if rate < 0.75 {
+        return PlaybackRate.Slow
+      } else if rate > 1.25 {
+        return PlaybackRate.Fast
+      } else {
+        return PlaybackRate.Normal
+      }
+    }
+  }
+  
+  var rateIcon: String {
+    switch rate {
+    case .Slow:
+      return "tortoise.fill"
+    case .Fast:
+      return "hare.fill"
+    default:
+      return "checkmark.rectangle.stack.fill"
     }
   }
   
@@ -61,10 +83,18 @@ struct ContentView: View {
             }
             
             ButtonSymbol("backward.fill", disabled: !videoReady) {
-              player.seekby(-1000)
+              player.seekby(-10000)
+            } actionShift: {
+              player.seekby(-30000)
+            } actionControl: {
+              player.seekby(-5000)
             }
             
             ButtonSymbol("backward.frame.fill", disabled: !videoReady) {
+              player.seekby(-500)
+            } actionShift: {
+              player.seekby(-1000)
+            } actionControl: {
               player.seekby(-100)
             }
             
@@ -76,11 +106,19 @@ struct ContentView: View {
             }).disabled(!videoInfo.ready)
             
             ButtonSymbol("forward.frame.fill", disabled: !videoReady) {
+              player.seekby(+500)
+            } actionShift: {
+              player.seekby(+1000)
+            } actionControl: {
               player.seekby(+100)
             }
             
             ButtonSymbol("forward.fill", disabled: !videoReady) {
-              player.seekby(+1000)
+              player.seekby(+10000)
+            } actionShift: {
+              player.seekby(+30000)
+            } actionControl: {
+              player.seekby(+5000)
             }
             
             if (player != nil) {
@@ -88,11 +126,20 @@ struct ContentView: View {
             }
             
             if (player != nil) {
-              ButtonSymbol(normalRate ? "hare.fill" : "tortoise.fill", disabled: !videoReady) {
-                player.setRate(normalRate ? 0.5 : 1.0)
+              ButtonSymbol(rateIcon, disabled: !videoReady) {
+                if rate == PlaybackRate.Normal {
+                  alertText = "Hold Shift when clicking to speed up playback. Hold Control to speed down."
+                  showAlert = true
+                } else {
+                  player.setRate(1.0)
+                }
+              } actionShift: {
+                player.setRate(2.0)
+              } actionControl: {
+                player.setRate(0.5)
               }
             }
-
+            
           }
         }
         Spacer(minLength: 16)
