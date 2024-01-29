@@ -82,12 +82,14 @@ struct ContentView: View {
               selection.removeAll()
             }.disabled(!videoInfo.ready)
             Button("Create") {
-              videoInfo.addChapter(player.time())
+              let chapter = videoInfo.addChapter(player.time())
+              selection = [chapter.id]
             }.disabled(!videoInfo.ready)
             Button("Delete") {
               for chapter in selection {
                 videoInfo.deleteChapter(chapter)
               }
+              selection.removeAll()
             }.disabled(!videoInfo.ready || selection.isEmpty)
             Button("Edit") {
               let chapter = videoInfo.getChapter(selection.first!)
