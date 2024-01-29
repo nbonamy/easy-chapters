@@ -62,7 +62,7 @@ struct ContentView: View {
               isScrobbing = editing
             }).disabled(!videoInfo.ready)
             if (player != nil) {
-              Text(player.timeFormatted()).monospacedDigit()
+              Text(player.timeFormatted(isScrobbing ? progress : nil)).monospacedDigit()
             }
           }
         }

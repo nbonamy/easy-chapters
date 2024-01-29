@@ -180,8 +180,7 @@ extension VLCPlayer {
   }
   
   func seekp(_ progress: Double) -> Void {
-    let offset = progress * Double(player.media!.length.intValue)
-    seek(Int(offset))
+    seek(timep(progress))
   }
   
   func seekby(_ offset: Int) -> Void {
@@ -192,8 +191,14 @@ extension VLCPlayer {
     return Int(player.time.intValue)
   }
   
-  func timeFormatted() -> String {
-    return Utils.formatTime(time())
+  func timep(_ progress: Double) -> Int {
+    let offset = progress * Double(player.media!.length.intValue)
+    return Int(offset)
+  }
+
+  func timeFormatted(_ progress: Double?) -> String {
+    let time = progress == nil ? time() : timep(progress!)
+    return Utils.formatTime(time)
   }
   
   func duration() -> Int {
