@@ -27,6 +27,12 @@ struct ContentView: View {
     self.videoInfo = localInfo
   }
   
+  var videoReady: Bool {
+    get {
+      return videoInfo.ready
+    }
+  }
+  
   var body: some View {
     GeometryReader { geometry in
       HStack {
@@ -44,32 +50,18 @@ struct ContentView: View {
               openFilePicker()
             }
             
-            //          Button("Play") {
-            //            player.play()
-            //          }
-
-            Button {
+            ButtonSymbol("playpause.fill", disabled: !videoReady) {
               player.playpause()
-            } label: {
-              Image(systemName: "playpause.fill")
-            }.disabled(!videoInfo.ready)
-
-            Button {
+            }
+            
+            ButtonSymbol("backward.fill", disabled: !videoReady) {
               player.seekby(-1000)
-            } label: {
-              Image(systemName: "backward.fill")
             }
-            .buttonRepeatBehavior(.enabled)
-            .disabled(!videoInfo.ready)
-              
-            Button {
+            
+            ButtonSymbol("backward.frame.fill", disabled: !videoReady) {
               player.seekby(-100)
-            } label: {
-              Image(systemName: "backward.frame.fill")
             }
-            .buttonRepeatBehavior(.enabled)
-            .disabled(!videoInfo.ready)
-
+            
             Slider(value: $progress, onEditingChanged: { editing in
               if (isScrobbing && !editing) {
                 player.seekp(progress)
@@ -77,21 +69,13 @@ struct ContentView: View {
               isScrobbing = editing
             }).disabled(!videoInfo.ready)
             
-            Button {
-              player.seekby(100)
-            } label: {
-              Image(systemName: "forward.frame.fill")
+            ButtonSymbol("forward.frame.fill", disabled: !videoReady) {
+              player.seekby(+100)
             }
-            .buttonRepeatBehavior(.enabled)
-            .disabled(!videoInfo.ready)
             
-            Button {
-              player.seekby(1000)
-            } label: {
-              Image(systemName: "forward.fill")
+            ButtonSymbol("forward.fill", disabled: !videoReady) {
+              player.seekby(+1000)
             }
-            .buttonRepeatBehavior(.enabled)
-            .disabled(!videoInfo.ready)
             
             if (player != nil) {
               Text(player.timeFormatted(isScrobbing ? progress : nil)).monospacedDigit()
@@ -114,31 +98,45 @@ struct ContentView: View {
           )
           Spacer().frame(height: 16)
           HStack {
+            
             Button("Reload") {
               player.parseChapters()
               selection.removeAll()
-            }.disabled(!videoInfo.ready)
-            Button("Create") {
+            }
+            .disabled(!videoReady)
+            
+            Button("New") {
               let chapter = videoInfo.addChapter(player.time())
               selection = [chapter.id]
-            }.disabled(!videoInfo.ready)
+            }
+            .disabled(!videoReady)
+            
             Button("Delete") {
               for chapter in selection {
                 videoInfo.deleteChapter(chapter)
               }
               selection.removeAll()
-            }.disabled(!videoInfo.ready || selection.isEmpty)
+            }
+            .disabled(!videoReady || selection.isEmpty)
+            
             Button("Edit") {
               isEditing = true
-            }.disabled(!videoInfo.ready || selection.count != 1)
+            }
+            .disabled(!videoReady || selection.count != 1)
+            
             Button("Update Time") {
               videoInfo.updateChapterOffset(selection.first!, offset: player.time())
-            }.disabled(!videoInfo.ready || selection.count != 1)
+            }
+            .disabled(!videoReady || selection.count != 1)
+            
             Button("Save") {
               save()
-            }.buttonStyle(.borderedProminent).disabled(!videoInfo.ready)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(!videoReady)
+            
           }
-        }.frame(width: 400)
+        }.frame(width: 380)
       }
       .onReceive(Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()) { _ in
         if (!isScrobbing && player != nil) {
