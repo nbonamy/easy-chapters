@@ -60,6 +60,7 @@ struct VLCPlayer: NSViewRepresentable {
   }
   
   func updateNSView(_ vlcView: VLCVideoView, context: NSViewRepresentableContext<VLCPlayer>) -> Void {
+    player.drawable = vlcView
     player.delegate = context.coordinator
     player.media?.delegate = context.coordinator
     player.libraryInstance.loggers?.append(context.coordinator)
