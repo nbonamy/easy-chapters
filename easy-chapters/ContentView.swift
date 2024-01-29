@@ -32,7 +32,9 @@ struct ContentView: View {
       HStack {
         VStack {
           if (player != nil) {
-            player.frame(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            player.cornerRadius(8).onTapGesture {
+              player.playpause()
+            }
           } else {
             Spacer()
           }
@@ -41,32 +43,62 @@ struct ContentView: View {
             Button("Open") {
               openFilePicker()
             }
+            
             //          Button("Play") {
             //            player.play()
             //          }
-            Button(player != nil && player.isPlaying() ? "Pause" : "Play") {
+
+            Button {
               player.playpause()
+            } label: {
+              Image(systemName: "playpause.fill")
             }.disabled(!videoInfo.ready)
-            Button("<<") {
+
+            Button {
+              player.seekby(-1000)
+            } label: {
+              Image(systemName: "backward.fill")
+            }
+            .buttonRepeatBehavior(.enabled)
+            .disabled(!videoInfo.ready)
+              
+            Button {
               player.seekby(-100)
-            }.disabled(!videoInfo.ready)
-              .buttonRepeatBehavior(.enabled)
-            Button(">>") {
-              player.seekby(100)
-            }.disabled(!videoInfo.ready)
-              .buttonRepeatBehavior(.enabled)
+            } label: {
+              Image(systemName: "backward.frame.fill")
+            }
+            .buttonRepeatBehavior(.enabled)
+            .disabled(!videoInfo.ready)
+
             Slider(value: $progress, onEditingChanged: { editing in
               if (isScrobbing && !editing) {
                 player.seekp(progress)
               }
               isScrobbing = editing
             }).disabled(!videoInfo.ready)
+            
+            Button {
+              player.seekby(100)
+            } label: {
+              Image(systemName: "forward.frame.fill")
+            }
+            .buttonRepeatBehavior(.enabled)
+            .disabled(!videoInfo.ready)
+            
+            Button {
+              player.seekby(1000)
+            } label: {
+              Image(systemName: "forward.fill")
+            }
+            .buttonRepeatBehavior(.enabled)
+            .disabled(!videoInfo.ready)
+            
             if (player != nil) {
               Text(player.timeFormatted(isScrobbing ? progress : nil)).monospacedDigit()
             }
           }
         }
-        Spacer(minLength: 32)
+        Spacer(minLength: 16)
         VStack {
           List(videoInfo.chapters, id: \.id, selection: $selection) { chapter in
             HStack {
@@ -76,7 +108,10 @@ struct ContentView: View {
                   player.seek(chapter.offset, resume: true)
                 }
             }
-          }
+          }.cornerRadius(8).overlay(
+            RoundedRectangle(cornerRadius: 8)
+              .stroke(.secondary.opacity(0.4), lineWidth: 1)
+          )
           Spacer().frame(height: 16)
           HStack {
             Button("Reload") {
@@ -101,7 +136,7 @@ struct ContentView: View {
             }.disabled(!videoInfo.ready || selection.count != 1)
             Button("Save") {
               save()
-            }.disabled(!videoInfo.ready)
+            }.buttonStyle(.borderedProminent).disabled(!videoInfo.ready)
           }
         }.frame(width: 400)
       }
@@ -150,7 +185,7 @@ struct ContentView: View {
   
   private func currentIndicator(_ chapter: Chapter) -> String {
     let current = videoInfo.currentChapter(player.time())
-    return current == chapter ? "★" : ""
+    return current == chapter ? "●" : ""
   }
   
   private func openFilePicker() {
