@@ -61,7 +61,7 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
   }
   
   func updateChapterName(_ id: UUID, name: String) {
-    var chapter = getChapter(id)
+    let chapter = getChapter(id)
     if (chapter != nil) {
       chapter!.name = name
       self.objectWillChange.send()
@@ -69,7 +69,7 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
   }
   
   func updateChapterOffset(_ id: UUID, offset: Int) {
-    var chapter = getChapter(id)
+    let chapter = getChapter(id)
     if (chapter != nil) {
       chapter!.offset = offset
       chapters.sort { $0.offset < $1.offset }
