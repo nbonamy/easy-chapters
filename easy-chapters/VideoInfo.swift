@@ -7,27 +7,24 @@
 
 import Foundation
 
-class VideoInfo : ObservableObject, VLCPlayerDelegate {
+@Observable class VideoInfo : VLCPlayerDelegate {
   
-  var chapters = [Chapter]()
-  var duration = 0
   var ready = false
-  
+  var chapters = [Chapter]()
+  @ObservationIgnored var duration = 0
+
   func playerReset(_ player: VLCPlayer) -> Void {
     ready = false
     chapters.removeAll()
-    self.objectWillChange.send()
   }
   
   func playerReady(_ player: VLCPlayer) -> Void {
     ready = true
-    self.objectWillChange.send()
   }
   
   func mediaParsed(_ player: VLCPlayer, chapters: [Chapter]) -> Void {
     self.chapters = chapters
     self.duration = player.duration()
-    self.objectWillChange.send()
   }
   
   func getChapter(_ id : UUID) -> Chapter? {
@@ -49,7 +46,6 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
       if (chapters[i].offset > offset) {
         let chapter = Chapter(name: String(format: "Chapter %d", i+1), offset: offset, duration: 0);
         chapters.insert(chapter, at: i)
-        self.objectWillChange.send()
         return chapter;
       }
     }
@@ -57,7 +53,6 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
     // append
     let chapter = Chapter(name: String(format: "Chapter %d", chapters.count+1), offset: offset, duration: 0);
     chapters.append(chapter)
-    self.objectWillChange.send()
     return chapter;
   }
   
@@ -65,7 +60,6 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
     let chapter = getChapter(id)
     if (chapter != nil) {
       chapter!.name = name
-      self.objectWillChange.send()
     }
   }
   
@@ -74,13 +68,11 @@ class VideoInfo : ObservableObject, VLCPlayerDelegate {
     if (chapter != nil) {
       chapter!.offset = offset
       chapters.sort { $0.offset < $1.offset }
-      self.objectWillChange.send()
     }
   }
   
   func deleteChapter(_ id: UUID) -> Void {
     chapters.removeAll{ $0.id == id }
-    self.objectWillChange.send()
   }
   
   func ffmpegChapters() -> String {

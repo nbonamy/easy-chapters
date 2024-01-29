@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
   
   @State private var player: VLCPlayer!
-  @ObservedObject var videoInfo = VideoInfo()
+  @State var videoInfo = VideoInfo()
   @State private var selection = Set<UUID>()
   @State private var progress: Double = 0
   @State private var isScrobbing = false
@@ -112,56 +112,13 @@ struct ContentView: View {
           progress = player.progress()
         }
       }
-      .onAppear {
-        openFilePicker()
-      }
-
       .sheet(isPresented: $isEditing) {
-        VStack {
-          
-          // icon
-          Spacer(minLength: 10)
-          Image(nsImage: NSImage(named: "AppIcon")!)
-            .resizable()
-            .frame(width: 52, height: 52)
-          Spacer(minLength: 26)
-
-          // title
-          Text("Chapter Title").bold()
-          Spacer(minLength: 18)
-          
-          // field
-          TextField("Title", text: $editedValue).frame(minWidth: 225)
-          Spacer(minLength: 16)
-          
-          // ok
-          AlertButton("OK", prominent: true) {
-            videoInfo.updateChapterName(selection.first!, name: editedValue)
-            isEditing.toggle()
-          }
-          Spacer(minLength: 6)
-          
-          // next
-          AlertButton("Next") {
-            let id = selection.first!
-            videoInfo.updateChapterName(id, name: editedValue)
-            let next = videoInfo.nextChapter(id)
-            if next != nil {
-              selection.removeAll()
-              selection.insert(next!.id)
-              editedValue = next!.name
-            } else {
-              isEditing.toggle()
-            }
-          }
-          Spacer(minLength: 16)
-          
-          // cancel
-          AlertButton("Cancel") {
-            isEditing.toggle()
-          }
-          
-        }.padding(16).background(Color(hex: 0xDAD9D8))
+        ChapterEditor(
+          videoInfo: $videoInfo,
+          isEditing: $isEditing,
+          selection: $selection,
+          editedValue: $editedValue
+        )
       }
       .alert(isPresented: self.$showAlert) {
         Alert(
