@@ -32,19 +32,22 @@ struct ChapterEditor: View {
       Spacer(minLength: 18)
       
       // field
-      TextField("Title", text: $editedValue).frame(minWidth: 225)
+      TextField("Title", text: $editedValue)
+        .frame(minWidth: 225)
+        .onSubmit {
+          _save(PostUpdateAction.Close)
+        }
       Spacer(minLength: 16)
       
       // ok
       AlertButton("OK", prominent: true) {
-        _ = updateChapter(editedValue, PostUpdateAction.Close)
+        _save(PostUpdateAction.Close)
       }
       Spacer(minLength: 6)
       
       // next
       AlertButton("Next") {
-        let next = updateChapter(editedValue, PostUpdateAction.Next)
-        editedValue = next?.name ?? ""
+        _save(PostUpdateAction.Next)
       }
       Spacer(minLength: 16)
       
@@ -54,6 +57,11 @@ struct ChapterEditor: View {
       }
       
     }.padding(16).background(Color(hex: 0xDAD9D8))
+  }
+  
+  func _save(_ action: PostUpdateAction) {
+    let next = updateChapter(editedValue, action)
+    editedValue = next?.name ?? ""
   }
   
   
