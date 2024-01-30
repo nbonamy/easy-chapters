@@ -6,33 +6,6 @@
 //
 
 import SwiftUI
-import CoreGraphics
-
-extension CGKeyCode
-{
-  static let kVK_Shift        : CGKeyCode = 0x38
-  static let kVK_Option       : CGKeyCode = 0x3A
-  static let kVK_Control      : CGKeyCode = 0x3B
-  static let kVK_RightShift   : CGKeyCode = 0x3C
-  static let kVK_RightOption  : CGKeyCode = 0x3D
-  static let kVK_RightControl : CGKeyCode = 0x3E
-  
-  var isPressed: Bool {
-    CGEventSource.keyState(.combinedSessionState, key: self)
-  }
-  
-  static var shiftKeyPressed: Bool {
-    return Self.kVK_Shift.isPressed || Self.kVK_RightShift.isPressed
-  }
-  
-  static var controlKeyPressed: Bool {
-    return Self.kVK_Control.isPressed || Self.kVK_RightControl.isPressed
-  }
-  
-  static var optionKeyPressed: Bool {
-    return Self.kVK_Option.isPressed || Self.kVK_RightOption.isPressed
-  }
-}
 
 struct ButtonSymbol: View {
   

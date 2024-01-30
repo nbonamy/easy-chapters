@@ -99,11 +99,14 @@ struct ContentView: View {
             }
             
             Slider(value: $progress, onEditingChanged: { editing in
-              if (isScrobbing && !editing) {
-                player.seekp(progress)
-              }
               isScrobbing = editing
-            }).disabled(!videoInfo.ready)
+            })
+            .onChange(of: progress) {
+              if (isScrobbing) {
+                whileScrobbing(progress)
+              }
+            }
+            .disabled(!videoInfo.ready)
             
             ButtonSymbol("forward.frame.fill", disabled: !videoReady) {
               player.seekby(+500)
@@ -244,6 +247,16 @@ struct ContentView: View {
   private func currentIndicator(_ chapter: Chapter) -> String {
     let current = videoInfo.currentChapter(player.time())
     return current == chapter ? "●" : ""
+  }
+  
+  private func whileScrobbing(_ progress: Double) {
+    // seek
+    player.seekp(progress)
+    
+    // command and one element, adjust offset
+    if (CGKeyCode.commandKeyPressed && selection.count == 1) {
+      videoInfo.updateChapterOffset(selection.first!, offset: player.timep(progress))
+    }
   }
   
   private func openFilePicker() {
