@@ -11,7 +11,7 @@
 		8D76608D2B6886430045CE35 /* CGKeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D76608C2B6886430045CE35 /* CGKeyCode.swift */; };
 		8DC223AB2B6836C0002B189F /* ChapterEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC223AA2B6836C0002B189F /* ChapterEditor.swift */; };
 		8DC223AD2B685FE0002B189F /* ButtonSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC223AC2B685FE0002B189F /* ButtonSymbol.swift */; };
-		8DF2CB382B670E880037CB9B /* easy_chaptersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2CB372B670E880037CB9B /* easy_chaptersApp.swift */; };
+		8DF2CB382B670E880037CB9B /* EasyChaptersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2CB372B670E880037CB9B /* EasyChaptersApp.swift */; };
 		8DF2CB3A2B670E880037CB9B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2CB392B670E880037CB9B /* ContentView.swift */; };
 		8DF2CB3C2B670E890037CB9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DF2CB3B2B670E890037CB9B /* Assets.xcassets */; };
 		8DF2CB3F2B670E890037CB9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8DF2CB3E2B670E890037CB9B /* Preview Assets.xcassets */; };
@@ -44,7 +44,7 @@
 		8DC223AA2B6836C0002B189F /* ChapterEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterEditor.swift; sourceTree = "<group>"; };
 		8DC223AC2B685FE0002B189F /* ButtonSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSymbol.swift; sourceTree = "<group>"; };
 		8DF2CB342B670E880037CB9B /* EasyChapters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyChapters.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8DF2CB372B670E880037CB9B /* easy_chaptersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = easy_chaptersApp.swift; sourceTree = "<group>"; };
+		8DF2CB372B670E880037CB9B /* EasyChaptersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyChaptersApp.swift; sourceTree = "<group>"; };
 		8DF2CB392B670E880037CB9B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8DF2CB3B2B670E890037CB9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8DF2CB3E2B670E890037CB9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 				8DC223AA2B6836C0002B189F /* ChapterEditor.swift */,
 				8DF2CB392B670E880037CB9B /* ContentView.swift */,
 				8DF2CB402B670E890037CB9B /* easy_chapters.entitlements */,
-				8DF2CB372B670E880037CB9B /* easy_chaptersApp.swift */,
+				8DF2CB372B670E880037CB9B /* EasyChaptersApp.swift */,
 				8DF2CB3D2B670E890037CB9B /* Preview Content */,
 				8DF2CB892B67D5890037CB9B /* SwiftUIDoubleClickModifier.swift */,
 				8DF2CB6E2B67549F0037CB9B /* Utils.swift */,
@@ -250,7 +250,7 @@
 				8DF2CB4A2B6725650037CB9B /* VLCPlayerView.swift in Sources */,
 				8DF2CB6D2B6750C40037CB9B /* VideoInfo.swift in Sources */,
 				8D76608D2B6886430045CE35 /* CGKeyCode.swift in Sources */,
-				8DF2CB382B670E880037CB9B /* easy_chaptersApp.swift in Sources */,
+				8DF2CB382B670E880037CB9B /* EasyChaptersApp.swift in Sources */,
 				8DF2CB6B2B6729F70037CB9B /* Chapter.swift in Sources */,
 				8DF2CB6F2B67549F0037CB9B /* Utils.swift in Sources */,
 			);
