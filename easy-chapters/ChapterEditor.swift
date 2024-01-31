@@ -16,7 +16,8 @@ struct ChapterEditor: View {
   @State var editedValue: String
   var closeEditor: () -> Void
   var updateChapter: (String, PostUpdateAction) -> Chapter?
-  
+  @State private var textSelected = false
+
   var body: some View {
     VStack {
       
@@ -37,6 +38,15 @@ struct ChapterEditor: View {
         .onSubmit {
           _save(PostUpdateAction.Close)
         }
+        .onReceive(NotificationCenter.default.publisher(for: NSTextView.didChangeSelectionNotification)) { obj in
+          if let textView = obj.object as? NSTextView {
+            guard !textSelected else { return }
+            let range = NSRange(location: 0, length: textView.string.count)
+            textView.setSelectedRange(range)
+            textSelected = true
+          }
+        }
+      
       Spacer(minLength: 16)
       
       // ok
@@ -62,6 +72,7 @@ struct ChapterEditor: View {
   func _save(_ action: PostUpdateAction) {
     let next = updateChapter(editedValue, action)
     editedValue = next?.name ?? ""
+    textSelected = false
   }
   
   
