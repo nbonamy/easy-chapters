@@ -174,7 +174,7 @@ struct ContentView: View {
             }
             .disabled(!videoReady)
             
-            Button("Delete") {
+            Button("Del") {
               for chapter in selection {
                 videoInfo.deleteChapter(chapter)
               }
@@ -187,10 +187,31 @@ struct ContentView: View {
             }
             .disabled(!videoReady || selection.count != 1)
             
-            Button("Update Time") {
+            ButtonSymbol("backward.frame.fill", disabled: !videoReady || selection.count != 1) {
+              var chapter = videoInfo.getChapter(selection.first!)!
+              videoInfo.updateChapterOffset(selection.first!, offset: max(0, chapter.offset - 100))
+            } actionShift: {
+              var chapter = videoInfo.getChapter(selection.first!)!
+              videoInfo.updateChapterOffset(selection.first!, offset: max(0, chapter.offset - 500))
+            } actionControl: {
+              var chapter = videoInfo.getChapter(selection.first!)!
+              videoInfo.updateChapterOffset(selection.first!, offset: max(0, chapter.offset - 50))
+            }
+            
+            ButtonSymbol("circle.fill", disabled: !videoReady || selection.count != 1) {
               videoInfo.updateChapterOffset(selection.first!, offset: player.time())
             }
-            .disabled(!videoReady || selection.count != 1)
+            
+            ButtonSymbol("forward.frame.fill", disabled: !videoReady || selection.count != 1) {
+              var chapter = videoInfo.getChapter(selection.first!)!
+              videoInfo.updateChapterOffset(selection.first!, offset: min( chapter.offset + 100, videoInfo.duration))
+            } actionShift: {
+              var chapter = videoInfo.getChapter(selection.first!)!
+              videoInfo.updateChapterOffset(selection.first!, offset: min( chapter.offset + 500, videoInfo.duration))
+            } actionControl: {
+              var chapter = videoInfo.getChapter(selection.first!)!
+              videoInfo.updateChapterOffset(selection.first!, offset: min( chapter.offset + 50, videoInfo.duration))
+            }
             
             Button("Save") {
               save()
