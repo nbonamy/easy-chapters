@@ -188,13 +188,13 @@ struct ContentView: View {
             .disabled(!videoReady || selection.count != 1)
             
             ButtonSymbol("backward.frame.fill", disabled: !videoReady || selection.count != 1) {
-              var chapter = videoInfo.getChapter(selection.first!)!
+              let chapter = videoInfo.getChapter(selection.first!)!
               videoInfo.updateChapterOffset(selection.first!, offset: max(0, chapter.offset - 100))
             } actionShift: {
-              var chapter = videoInfo.getChapter(selection.first!)!
+              let chapter = videoInfo.getChapter(selection.first!)!
               videoInfo.updateChapterOffset(selection.first!, offset: max(0, chapter.offset - 500))
             } actionControl: {
-              var chapter = videoInfo.getChapter(selection.first!)!
+              let chapter = videoInfo.getChapter(selection.first!)!
               videoInfo.updateChapterOffset(selection.first!, offset: max(0, chapter.offset - 50))
             }
             
@@ -203,13 +203,13 @@ struct ContentView: View {
             }
             
             ButtonSymbol("forward.frame.fill", disabled: !videoReady || selection.count != 1) {
-              var chapter = videoInfo.getChapter(selection.first!)!
+              let chapter = videoInfo.getChapter(selection.first!)!
               videoInfo.updateChapterOffset(selection.first!, offset: min( chapter.offset + 100, videoInfo.duration))
             } actionShift: {
-              var chapter = videoInfo.getChapter(selection.first!)!
+              let chapter = videoInfo.getChapter(selection.first!)!
               videoInfo.updateChapterOffset(selection.first!, offset: min( chapter.offset + 500, videoInfo.duration))
             } actionControl: {
-              var chapter = videoInfo.getChapter(selection.first!)!
+              let chapter = videoInfo.getChapter(selection.first!)!
               videoInfo.updateChapterOffset(selection.first!, offset: min( chapter.offset + 50, videoInfo.duration))
             }
             
